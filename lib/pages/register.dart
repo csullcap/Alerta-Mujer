@@ -1,103 +1,198 @@
 import 'package:flutter/material.dart';
-import 'package:alerta_mujer/Widgets/HeaderLogin.dart';
-import 'package:alerta_mujer/Widgets/widgets.dart';
 
 class Register extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff284855),
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            HeaderLogin(),
-            Positioned(
-                top: 60,
-                left: 20,
-                child: const TextFrave(
-                    text: 'Crear una',
-                    color: Colors.white,
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold)),
-            Positioned(
-                top: 110,
-                left: 20,
-                child: const TextFrave(
-                    text: 'Cuenta',
-                    color: Colors.white,
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold)),
-            BottomRegister(),
-            Positioned(
-                top: 250,
-                child: _TextFieldCustom(label: 'Nombre', isPass: false)),
-            Positioned(
-                top: 320,
-                child: _TextFieldCustom(
-                    label: 'Correo Electronico', isPass: false)),
-            Positioned(
-                top: 390,
-                child: _TextFieldCustom(label: 'Contraseña', isPass: true)),
-            Positioned(
-                top: 460,
-                child: _TextFieldCustom(
-                    label: 'Confirmar Contraseña', isPass: true)),
-            Positioned(
-                top: 550,
-                left: 15,
-                child: TextButton(
-                    onPressed: () {},
-                    child: const TextFrave(
-                        text: 'Registrarme',
-                        color: Colors.white,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold))),
-            Positioned(
-                top: 720,
-                left: 15,
-                child: Row(
+        backgroundColor: Color.fromARGB(255, 233, 124, 200),
+        body: SingleChildScrollView(
+            child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
                   children: [
-                    const TextFrave(
-                        text: '¿ Ya tienes una cuenta ? ',
-                        color: Colors.white,
-                        fontSize: 17),
-                    GestureDetector(
-                        onTap: () => Navigator.pushNamed(context, 'login'),
-                        child: const TextFrave(
-                            text: 'Iniciar sesión',
-                            color: Colors.white,
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold))
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      height: 600,
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 223, 27, 13),
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(60.0),
+                            bottomLeft: Radius.circular(60.0),
+                          )),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Text(
+                                "Registrate",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              TextField(
+                                style: TextStyle(color: Colors.white),
+                                decoration: InputDecoration(
+                                    hintText: "Nombre",
+                                    hintStyle: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 238, 238, 238)),
+                                    prefixIcon: Icon(
+                                      Icons.supervisor_account,
+                                      color: Colors.white,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.white, width: 1),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    border: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    focusedBorder: new OutlineInputBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(10.0),
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    )),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              TextField(
+                                style: TextStyle(color: Colors.white),
+                                decoration: InputDecoration(
+                                    hintText: "Apellidos",
+                                    hintStyle: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 238, 238, 238)),
+                                    prefixIcon: Icon(
+                                      Icons.supervisor_account,
+                                      color: Colors.white,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.white, width: 1),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    border: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    focusedBorder: new OutlineInputBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(10.0),
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    )),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              TextField(
+                                style: TextStyle(color: Colors.white),
+                                decoration: InputDecoration(
+                                    hintText: "Correo electronico",
+                                    hintStyle: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 238, 238, 238)),
+                                    prefixIcon: Icon(
+                                      Icons.alternate_email,
+                                      color: Colors.white,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.white, width: 1),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    border: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    focusedBorder: new OutlineInputBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(10.0),
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    )),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              TextField(
+                                style: TextStyle(color: Colors.white),
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                    hintText: "Contraseña",
+                                    hintStyle: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 238, 238, 238)),
+                                    prefixIcon: Icon(
+                                      Icons.password,
+                                      color: Colors.white,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.white, width: 1),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    border: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    focusedBorder: new OutlineInputBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(10.0),
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    )),
+                              ),
+                              SizedBox(
+                                height: 80,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                      height: 50,
+                                      width: 300,
+                                      padding: const EdgeInsets.fromLTRB(
+                                          10, 0, 10, 0),
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                            primary: Color.fromARGB(
+                                                255, 82, 228, 238),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20))),
+                                        child: const Text('Registrarse',
+                                            style: TextStyle(fontSize: 18)),
+                                        onPressed: () {
+                                          Navigator.pushNamed(context, 'main');
+                                        },
+                                      )),
+                                ],
+                              )
+                            ]),
+                      ),
+                    ),
                   ],
-                )),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _TextFieldCustom extends StatelessWidget {
-  final String label;
-  final bool isPass;
-
-  const _TextFieldCustom({required this.label, required this.isPass});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-      child: Container(
-        width: MediaQuery.of(context).size.width * .9,
-        child: TextField(
-          obscureText: isPass,
-          decoration: InputDecoration(
-              labelText: label,
-              labelStyle: TextStyle(color: Colors.white),
-              enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white))),
-        ),
-      ),
-    );
+                ))));
   }
 }

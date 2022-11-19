@@ -1,96 +1,153 @@
 import 'package:flutter/material.dart';
-import 'package:alerta_mujer/Widgets/HeaderLogin.dart';
-import 'package:alerta_mujer/Widgets/widgets.dart';
 
 class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            HeaderLogin(),
-            Positioned(
-                top: 60,
-                left: 20,
-                child: const TextFrave(
-                    text: 'SOS Alerta',
-                    color: Colors.white,
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold)),
-            Positioned(
-                top: 110,
-                left: 20,
-                child: const TextFrave(
-                    text: 'Mujer',
-                    color: Colors.white,
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold)),
-            BottomLogin(),
-            Positioned(
-                top: 270,
-                child: _TextFieldCustom(
-                    label: 'Correo Electronico', isPass: false)),
-            Positioned(
-                top: 340,
-                child: _TextFieldCustom(label: 'Contraseña', isPass: true)),
-            Positioned(
-                top: 460,
-                left: 15,
-                child: TextButton(
-                    onPressed: () {},
-                    child: TextFrave(
-                        text: 'Ingresar',
-                        color: Colors.grey[700]!,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold))),
-            Positioned(
-                top: 720,
-                left: 15,
-                child: Row(
-                  children: [
-                    const TextFrave(
-                        text: '¿No tienes una cuenta? ',
-                        color: Colors.white,
-                        fontSize: 17),
-                    GestureDetector(
-                        onTap: () => Navigator.pushNamed(context, 'register'),
-                        child: const TextFrave(
-                            text: 'Registrate',
-                            color: Colors.white,
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold))
-                  ],
-                )),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _TextFieldCustom extends StatelessWidget {
-  final String label;
-  final bool isPass;
-
-  const _TextFieldCustom({required this.label, required this.isPass});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-      child: Container(
-        width: MediaQuery.of(context).size.width * .9,
-        child: TextField(
-          obscureText: isPass,
-          decoration: InputDecoration(
-              labelText: label,
-              labelStyle: TextStyle(color: Colors.grey[700]),
-              enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey[700]!))),
-        ),
-      ),
-    );
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Center(
+                child: Image.asset(
+                  "images/login.png",
+                  height: 400.0,
+                  width: 400.0,
+                ),
+              ),
+              Container(
+                  width: double.infinity,
+                  height: 400,
+                  decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 233, 124, 200),
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(40.0),
+                        topLeft: Radius.circular(40.0),
+                      )),
+                  child: Padding(
+                    padding: const EdgeInsets.all(25.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Bienvenido",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Inicio de sesión",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 223, 27, 13),
+                            fontSize: 30,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        //  INGRESAR CORREO ELECTRONICO
+                        TextField(
+                          style: TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
+                              hintText: "Ingrese su correo electronico",
+                              hintStyle: TextStyle(
+                                  color: Color.fromARGB(255, 238, 238, 238)),
+                              prefixIcon: Icon(
+                                Icons.alternate_email,
+                                color: Colors.white,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.white, width: 1),
+                                borderRadius: BorderRadius.circular(25.0),
+                              ),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(25.0)),
+                              focusedBorder: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(25.0),
+                                borderSide: BorderSide(color: Colors.white),
+                              )),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        //  INGRESAR CORREO CONTRASEÑA
+                        TextField(
+                          style: TextStyle(color: Colors.white),
+                          obscureText: true,
+                          decoration: InputDecoration(
+                              hintText: "Ingrese su contraseña",
+                              hintStyle: TextStyle(
+                                  color: Color.fromARGB(255, 238, 238, 238)),
+                              prefixIcon: Icon(
+                                Icons.password,
+                                color: Colors.white,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.white, width: 1),
+                                borderRadius: BorderRadius.circular(25.0),
+                              ),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(25.0)),
+                              focusedBorder: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(25.0),
+                                borderSide: BorderSide(color: Colors.white),
+                              )),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                                height: 50,
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      primary:
+                                          Color.fromARGB(255, 82, 228, 238),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20))),
+                                  child: const Text('Ingresar',
+                                      style: TextStyle(fontSize: 18)),
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, 'main');
+                                  },
+                                )),
+                            Container(
+                                height: 50,
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      primary: Color.fromARGB(255, 223, 27, 13),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20))),
+                                  child: const Text('Registrarse',
+                                      style: TextStyle(fontSize: 18)),
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, 'register');
+                                  },
+                                )),
+                          ],
+                        )
+                      ],
+                    ),
+                  ))
+            ],
+          ),
+        ));
   }
 }
