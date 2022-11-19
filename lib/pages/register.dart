@@ -15,7 +15,7 @@ class Register extends StatelessWidget {
                     ),
                     Container(
                       width: double.infinity,
-                      height: 600,
+                      height: 650,
                       decoration: BoxDecoration(
                           color: Color.fromARGB(255, 223, 27, 13),
                           borderRadius: BorderRadius.only(
@@ -106,6 +106,37 @@ class Register extends StatelessWidget {
                               TextField(
                                 style: TextStyle(color: Colors.white),
                                 decoration: InputDecoration(
+                                    hintText: "Departamento",
+                                    hintStyle: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 238, 238, 238)),
+                                    prefixIcon: Icon(
+                                      Icons.map,
+                                      color: Colors.white,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.white, width: 1),
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    border: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
+                                    focusedBorder: new OutlineInputBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(10.0),
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    )),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              TextField(
+                                style: TextStyle(color: Colors.white),
+                                decoration: InputDecoration(
                                     hintText: "Correo electronico",
                                     hintStyle: TextStyle(
                                         color:
@@ -164,7 +195,7 @@ class Register extends StatelessWidget {
                                     )),
                               ),
                               SizedBox(
-                                height: 80,
+                                height: 50,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
