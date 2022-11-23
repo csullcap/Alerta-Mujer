@@ -1,28 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 class PrincipalView extends StatelessWidget {
-  String recomendacion =
+  final String recomendacion =
       "Recuerda: Si quieres realizar una llamada de emergencia a la linea #100 solo pulse el boton redondo";
-  String centro = "Centro de emergencia mujer mas cercano";
-  String policia = "Estacion policial mas cercana";
+  final String centro = "Centro de emergencia mujer mas cercano";
+  final String policia = "Estacion policial mas cercana";
+
+  const PrincipalView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 233, 124, 200),
+      backgroundColor: const Color.fromARGB(255, 233, 124, 200),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Bienvenida",
+                  const Text("Bienvenida",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 30,
@@ -33,7 +36,8 @@ class PrincipalView extends StatelessWidget {
                       child: ElevatedButton.icon(
                         icon: const Icon(Icons.login_sharp),
                         style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(255, 82, 228, 238),
+                            backgroundColor:
+                                const Color.fromARGB(255, 82, 228, 238),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20))),
                         label:
@@ -44,27 +48,28 @@ class PrincipalView extends StatelessWidget {
                       )),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Text(recomendacion,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontSize: 20,
                       fontWeight: FontWeight.normal)),
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
               Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      primary: Color.fromARGB(255, 223, 27, 13),
+                      backgroundColor: const Color.fromARGB(255, 223, 27, 13),
                       shape: const CircleBorder(),
-                      side: BorderSide(width: 4, color: Colors.white),
+                      side: const BorderSide(width: 4, color: Colors.white),
                       padding: const EdgeInsets.all(50)),
+                  onPressed: _callNumber,
                   child: Column(
-                    children: [
-                      const Icon(
+                    children: const [
+                      Icon(
                         Icons.local_phone_rounded,
                         size: 150,
                       ),
@@ -78,10 +83,9 @@ class PrincipalView extends StatelessWidget {
                               fontWeight: FontWeight.normal))
                     ],
                   ),
-                  onPressed: () {},
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 35,
               ),
               Row(
@@ -94,17 +98,18 @@ class PrincipalView extends StatelessWidget {
                           onPressed: () {
                             Navigator.pushNamed(context, 'centros');
                           },
-                          child: Icon(
+                          style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.all(8.0),
+                              backgroundColor:
+                                  const Color.fromARGB(255, 82, 228, 238),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20))),
+                          child: const Icon(
                             Icons.maps_home_work_outlined,
                             size: 50,
                           ),
-                          style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.all(8.0),
-                              primary: Color.fromARGB(255, 82, 228, 238),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20))),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Text(
@@ -123,17 +128,17 @@ class PrincipalView extends StatelessWidget {
                             onPressed: () {
                               Navigator.pushNamed(context, 'policias');
                             },
-                            child: Icon(
-                              Icons.maps_home_work_outlined,
-                              size: 50,
-                            ),
                             style: ElevatedButton.styleFrom(
                                 padding: const EdgeInsets.all(8.0),
                                 primary: Color.fromARGB(255, 82, 228, 238),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20))),
+                            child: const Icon(
+                              size: 50,
+                              Icons.maps_home_work_outlined,
+                            ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Text(
@@ -149,4 +154,9 @@ class PrincipalView extends StatelessWidget {
       ),
     );
   }
+}
+
+_callNumber() async {
+  const number = '100';
+  await FlutterPhoneDirectCaller.callNumber(number);
 }
