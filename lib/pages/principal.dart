@@ -1,11 +1,15 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PrincipalView extends StatelessWidget {
   final String recomendacion =
       "Recuerda: Si quieres realizar una llamada de emergencia a la linea #100 solo pulse el boton redondo";
   final String centro = "Centro de emergencia mujer mas cercano";
   final String policia = "Estacion policial mas cercana";
+  final String CEM = 'centro+de+emergencia+mujer+mas+cercano';
+  final String COMISARIA = 'comisaria+mas+cercana';
 
   const PrincipalView({super.key});
 
@@ -37,11 +41,11 @@ class PrincipalView extends StatelessWidget {
                         icon: const Icon(Icons.login_sharp),
                         style: ElevatedButton.styleFrom(
                             backgroundColor:
-                                const Color.fromARGB(255, 82, 228, 238),
+                            const Color.fromARGB(255, 82, 228, 238),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20))),
                         label:
-                            const Text('Salir', style: TextStyle(fontSize: 16)),
+                        const Text('Salir', style: TextStyle(fontSize: 16)),
                         onPressed: () {
                           Navigator.pushNamed(context, 'login');
                         },
@@ -95,13 +99,11 @@ class PrincipalView extends StatelessWidget {
                     child: Column(
                       children: [
                         ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, 'centros');
-                          },
+                          onPressed: () => _openMap(CEM),
                           style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.all(8.0),
                               backgroundColor:
-                                  const Color.fromARGB(255, 82, 228, 238),
+                              const Color.fromARGB(255, 82, 228, 238),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20))),
                           child: const Icon(
@@ -125,9 +127,7 @@ class PrincipalView extends StatelessWidget {
                       child: Column(
                         children: [
                           ElevatedButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, 'policias');
-                            },
+                            onPressed: () => _openMap(COMISARIA),
                             style: ElevatedButton.styleFrom(
                                 padding: const EdgeInsets.all(8.0),
                                 primary: Color.fromARGB(255, 82, 228, 238),
@@ -159,4 +159,19 @@ class PrincipalView extends StatelessWidget {
 _callNumber() async {
   const number = '100';
   await FlutterPhoneDirectCaller.callNumber(number);
+}
+
+_openMap(String type) async {
+  if (Platform.isAndroid) {
+    var url = Uri.parse("google.navigation:q=$type");
+    if (await canLaunch(url.toString())) {
+      await launch(url.toString());
+    } else {
+      throw 'Could not open the map.';
+    }
+  } else if (Platform.isIOS) {
+
+    //final url = 'https://maps.apple.com/?q=$type';
+    var url = Uri.parse("maps://?q=$type");
+  }
 }

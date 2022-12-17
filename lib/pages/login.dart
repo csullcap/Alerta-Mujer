@@ -1,6 +1,79 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:alerta_mujer/pages/principal.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
+  const Login({Key? key}) : super(key: key);
+
+  @override
+  _Loginstate createState() => _Loginstate();
+}
+class _Loginstate extends State<Login> {
+  var loading = false;
+  void _loginWithGoogle() async{
+    setState(() {
+      loading = true;
+    });
+    String email = '';
+    String? name = '';
+    final serviceId = 'service_fhj23fq';
+    final template = 'template_z3rlvga';
+    final userId = 'O6ZargfokVhvblZCi';
+    final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
+
+
+    final googleSignIn = GoogleSignIn(scopes: ['email']);
+    try {
+      final googleSignInAccount = await googleSignIn.signIn();
+      if(googleSignInAccount == null ){
+        setState(() {
+          loading = false;
+        });
+        return;
+      }
+      final googleSignInAuthentication = await googleSignInAccount.authentication;
+      final googleAuthCredential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+      await FirebaseAuth.instance.signInWithCredential(googleAuthCredential);
+      await FirebaseFirestore.instance.collection('usuarios').add({
+        'name': googleSignInAccount.displayName,
+        'email': googleSignInAccount.email,
+      });
+      email = googleSignInAccount.email;
+      name = googleSignInAccount.displayName;
+
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => const PrincipalView()),(route) => false);
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    } finally{
+      setState(() {
+        loading = false;
+      });
+    }
+    final response = await http.post(url,
+        headers: {
+          'origin' : 'http://localhost',
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({
+          'service_id': serviceId,
+          'template_id': template,
+          'user_id': userId,
+          'template_params': {
+            'email': email,
+            'name': name,
+          }
+        })
+    );
+    print(email);
+    print(name);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +136,7 @@ class Login extends StatelessWidget {
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide:
-                                    BorderSide(color: Colors.white, width: 1),
+                                BorderSide(color: Colors.white, width: 1),
                                 borderRadius: BorderRadius.circular(25.0),
                               ),
                               border: OutlineInputBorder(
@@ -91,7 +164,7 @@ class Login extends StatelessWidget {
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide:
-                                    BorderSide(color: Colors.white, width: 1),
+                                BorderSide(color: Colors.white, width: 1),
                                 borderRadius: BorderRadius.circular(25.0),
                               ),
                               border: OutlineInputBorder(
@@ -111,14 +184,14 @@ class Login extends StatelessWidget {
                             Container(
                                 height: 50,
                                 padding:
-                                    const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                const EdgeInsets.fromLTRB(10, 0, 10, 0),
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                       primary:
-                                          Color.fromARGB(255, 82, 228, 238),
+                                      Color.fromARGB(255, 82, 228, 238),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
-                                              BorderRadius.circular(20))),
+                                          BorderRadius.circular(20))),
                                   child: const Text('Ingresar',
                                       style: TextStyle(fontSize: 18)),
                                   onPressed: () {
@@ -128,13 +201,13 @@ class Login extends StatelessWidget {
                             Container(
                                 height: 50,
                                 padding:
-                                    const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                const EdgeInsets.fromLTRB(10, 0, 10, 0),
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                       primary: Color.fromARGB(255, 223, 27, 13),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
-                                              BorderRadius.circular(20))),
+                                          BorderRadius.circular(20))),
                                   child: const Text('Registrarse',
                                       style: TextStyle(fontSize: 18)),
                                   onPressed: () {
@@ -142,7 +215,29 @@ class Login extends StatelessWidget {
                                   },
                                 )),
                           ],
-                        )
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+
+                            Container(
+                                height: 50,
+                                padding:
+                                const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      primary: Color.fromARGB(255, 223, 27, 13),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(20))),
+                                  child: const Text('Google',
+                                      style: TextStyle(fontSize: 18)),
+                                  onPressed: () {
+                                    _loginWithGoogle();
+                                  },
+                                )),
+                          ],
+                        ),
                       ],
                     ),
                   ))
@@ -150,4 +245,5 @@ class Login extends StatelessWidget {
           ),
         ));
   }
+
 }

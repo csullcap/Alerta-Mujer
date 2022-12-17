@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
-
+import 'package:alerta_mujer/usuario_service.dart';
+import 'package:alerta_mujer/models/usuario.dart';
 class Register extends StatelessWidget {
+  final nombrecontroller = TextEditingController();
+  final apellidocontroller = TextEditingController();
+  final departamentocontroller = TextEditingController();
+  final contrasenacontroller = TextEditingController();
+  final emailcontroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +48,7 @@ class Register extends StatelessWidget {
                                 height: 30,
                               ),
                               TextField(
+                                controller: nombrecontroller,
                                 style: TextStyle(color: Colors.white),
                                 decoration: InputDecoration(
                                     hintText: "Nombre",
@@ -73,6 +80,7 @@ class Register extends StatelessWidget {
                                 height: 20,
                               ),
                               TextField(
+                                controller: apellidocontroller,
                                 style: TextStyle(color: Colors.white),
                                 decoration: InputDecoration(
                                     hintText: "Apellidos",
@@ -104,6 +112,7 @@ class Register extends StatelessWidget {
                                 height: 20,
                               ),
                               TextField(
+                                controller: departamentocontroller,
                                 style: TextStyle(color: Colors.white),
                                 decoration: InputDecoration(
                                     hintText: "Departamento",
@@ -135,6 +144,7 @@ class Register extends StatelessWidget {
                                 height: 20,
                               ),
                               TextField(
+                                controller: emailcontroller,
                                 style: TextStyle(color: Colors.white),
                                 decoration: InputDecoration(
                                     hintText: "Correo electronico",
@@ -166,6 +176,7 @@ class Register extends StatelessWidget {
                                 height: 20,
                               ),
                               TextField(
+                                controller: contrasenacontroller,
                                 style: TextStyle(color: Colors.white),
                                 obscureText: true,
                                 decoration: InputDecoration(
@@ -215,6 +226,13 @@ class Register extends StatelessWidget {
                                         child: const Text('Registrarse',
                                             style: TextStyle(fontSize: 18)),
                                         onPressed: () {
+                                          UsuarioServicio().add
+                                          (Usuario(
+                                              nombre: nombrecontroller.text,
+                                              apellido: apellidocontroller.text,
+                                              departamento: departamentocontroller.text,
+                                              email: emailcontroller.text,
+                                              contrasena: contrasenacontroller.text));
                                           Navigator.pushNamed(context, 'main');
                                         },
                                       )),

@@ -1,0 +1,7 @@
+
+<resources>
+    <string name="app_name">Alerta_Mujer</string>
+    <string name="facebook_app_id">2376982239139422</string>
+    <string name="fb_login_protocol_scheme">fb2376982239139422</string>
+    <string name="facebook_client_token">41aa7e72622a17c783441ae87d91e652</string>
+</resources>
