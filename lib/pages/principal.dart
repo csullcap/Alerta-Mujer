@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:geolocator/geolocator.dart';
 
 class PrincipalView extends StatelessWidget {
   final String recomendacion =
@@ -9,7 +10,7 @@ class PrincipalView extends StatelessWidget {
   final String centro = "Centro de emergencia mujer mas cercano";
   final String policia = "Estacion policial mas cercana";
   final String CEM = 'centro+de+emergencia+mujer+mas+cercano';
-  final String COMISARIA = 'comisaria+mas+cercana';
+  final String COMISARIA = 'comisaría+mas+cercana';
 
   const PrincipalView({super.key});
 
@@ -41,11 +42,11 @@ class PrincipalView extends StatelessWidget {
                         icon: const Icon(Icons.login_sharp),
                         style: ElevatedButton.styleFrom(
                             backgroundColor:
-                            const Color.fromARGB(255, 82, 228, 238),
+                                const Color.fromARGB(255, 82, 228, 238),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20))),
                         label:
-                        const Text('Salir', style: TextStyle(fontSize: 16)),
+                            const Text('Salir', style: TextStyle(fontSize: 16)),
                         onPressed: () {
                           Navigator.pushNamed(context, 'login');
                         },
@@ -103,7 +104,7 @@ class PrincipalView extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.all(8.0),
                               backgroundColor:
-                              const Color.fromARGB(255, 82, 228, 238),
+                                  const Color.fromARGB(255, 82, 228, 238),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20))),
                           child: const Icon(
@@ -161,17 +162,60 @@ _callNumber() async {
   await FlutterPhoneDirectCaller.callNumber(number);
 }
 
-_openMap(String type) async {
+Future<Position> _determinePosition() async {
+  bool serviceEnabled;
+  LocationPermission permission;
+  // Test if location services are enabled.
+  serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  if (!serviceEnabled) {
+    // Location services are not enabled don't continue
+    // accessing the position and request users of the
+    // App to enable the location services.
+    return Future.error('Location services are disabled.');
+  }
+
+  permission = await Geolocator.checkPermission();
+  if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      // Permissions are denied, next time you could try
+      // requesting permissions again (this is also where
+      // Android's shouldShowRequestPermissionRationale
+      // returned true. According to Android guidelines
+      // your App should show an explanatory UI now.
+      return Future.error('Location permissions are denied');
+    }
+  }
+
+  if (permission == LocationPermission.deniedForever) {
+    // Permissions are denied forever, handle appropriately.
+    return Future.error(
+        'Location permissions are permanently denied, we cannot request permissions.');
+  }
+
+  // When we reach here, permissions are granted and we can
+  // continue accessing the position of the device.
+  return await Geolocator.getCurrentPosition();
+}
+
+Future<void> _openMap(String type) async {
+  final position = await _determinePosition();
+  final lat = position.latitude;
+  final long = position.longitude;
+
   if (Platform.isAndroid) {
-    var url = Uri.parse("google.navigation:q=$type");
-    if (await canLaunch(url.toString())) {
-      await launch(url.toString());
+    final url = 'https://www.google.com/maps/dir/$lat,$long/$type';
+    if (await canLaunch(url)) {
+      await launch(url);
     } else {
-      throw 'Could not open the map.';
+      throw 'Could not launch $url';
     }
   } else if (Platform.isIOS) {
-
-    //final url = 'https://maps.apple.com/?q=$type';
-    var url = Uri.parse("maps://?q=$type");
+    final url = 'https://maps.apple.com/?saddr=$lat,$long&daddr=$type';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

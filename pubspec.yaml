@@ -47,6 +47,7 @@ dependencies:
   flutter_facebook_auth:
   google_sign_in:
   url_launcher:
+  geolocator:
 
 dev_dependencies:
   flutter_test:
