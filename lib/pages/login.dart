@@ -12,9 +12,11 @@ class Login extends StatefulWidget {
   @override
   _Loginstate createState() => _Loginstate();
 }
+
 class _Loginstate extends State<Login> {
   var loading = false;
-  void _loginWithGoogle() async{
+
+  void _loginWithGoogle() async {
     setState(() {
       loading = true;
     });
@@ -25,17 +27,17 @@ class _Loginstate extends State<Login> {
     final userId = 'O6ZargfokVhvblZCi';
     final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
 
-
     final googleSignIn = GoogleSignIn(scopes: ['email']);
     try {
       final googleSignInAccount = await googleSignIn.signIn();
-      if(googleSignInAccount == null ){
+      if (googleSignInAccount == null) {
         setState(() {
           loading = false;
         });
         return;
       }
-      final googleSignInAuthentication = await googleSignInAccount.authentication;
+      final googleSignInAuthentication =
+          await googleSignInAccount.authentication;
       final googleAuthCredential = GoogleAuthProvider.credential(
         accessToken: googleSignInAuthentication.accessToken,
         idToken: googleSignInAuthentication.idToken,
@@ -48,17 +50,18 @@ class _Loginstate extends State<Login> {
       email = googleSignInAccount.email;
       name = googleSignInAccount.displayName;
 
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => const PrincipalView()),(route) => false);
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => PrincipalView()), (route) => false);
     } on FirebaseAuthException catch (e) {
       print(e);
-    } finally{
+    } finally {
       setState(() {
         loading = false;
       });
     }
     final response = await http.post(url,
         headers: {
-          'origin' : 'http://localhost',
+          'origin': 'http://localhost',
           'Content-Type': 'application/json',
         },
         body: json.encode({
@@ -69,11 +72,11 @@ class _Loginstate extends State<Login> {
             'email': email,
             'name': name,
           }
-        })
-    );
+        }));
     print(email);
     print(name);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,9 +93,9 @@ class _Loginstate extends State<Login> {
               ),
               Container(
                   width: double.infinity,
-                  height: 400,
+                  height: 380,
                   decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 233, 124, 200),
+                      color: Color.fromRGBO(248, 206, 205, 1),
                       borderRadius: BorderRadius.only(
                         topRight: Radius.circular(40.0),
                         topLeft: Radius.circular(40.0),
@@ -104,138 +107,68 @@ class _Loginstate extends State<Login> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Bienvenido",
+                          "Bienvenida",
                           style: TextStyle(
-                              color: Colors.white,
+                              color: Color.fromRGBO(187, 83, 98, 1),
                               fontSize: 40,
                               fontWeight: FontWeight.bold),
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 5,
                         ),
                         Text(
                           "Inicio de sesión",
                           style: TextStyle(
-                            color: Color.fromARGB(255, 223, 27, 13),
-                            fontSize: 30,
+                            color: Color.fromRGBO(187, 83, 98, 0.6),
+                            fontSize: 24,
                           ),
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 60,
                         ),
                         //  INGRESAR CORREO ELECTRONICO
-                        TextField(
-                          style: TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
-                              hintText: "Ingrese su correo electronico",
-                              hintStyle: TextStyle(
-                                  color: Color.fromARGB(255, 238, 238, 238)),
-                              prefixIcon: Icon(
-                                Icons.alternate_email,
-                                color: Colors.white,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                BorderSide(color: Colors.white, width: 1),
-                                borderRadius: BorderRadius.circular(25.0),
-                              ),
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(25.0)),
-                              focusedBorder: new OutlineInputBorder(
-                                borderRadius: new BorderRadius.circular(25.0),
-                                borderSide: BorderSide(color: Colors.white),
-                              )),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        //  INGRESAR CORREO CONTRASEÑA
-                        TextField(
-                          style: TextStyle(color: Colors.white),
-                          obscureText: true,
-                          decoration: InputDecoration(
-                              hintText: "Ingrese su contraseña",
-                              hintStyle: TextStyle(
-                                  color: Color.fromARGB(255, 238, 238, 238)),
-                              prefixIcon: Icon(
-                                Icons.password,
-                                color: Colors.white,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                BorderSide(color: Colors.white, width: 1),
-                                borderRadius: BorderRadius.circular(25.0),
-                              ),
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(25.0)),
-                              focusedBorder: new OutlineInputBorder(
-                                borderRadius: new BorderRadius.circular(25.0),
-                                borderSide: BorderSide(color: Colors.white),
-                              )),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                                height: 50,
-                                padding:
-                                const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      primary:
-                                      Color.fromARGB(255, 82, 228, 238),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(20))),
-                                  child: const Text('Ingresar',
-                                      style: TextStyle(fontSize: 18)),
-                                  onPressed: () {
-                                    Navigator.pushNamed(context, 'main');
-                                  },
-                                )),
-                            Container(
-                                height: 50,
-                                padding:
-                                const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      primary: Color.fromARGB(255, 223, 27, 13),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(20))),
-                                  child: const Text('Registrarse',
-                                      style: TextStyle(fontSize: 18)),
-                                  onPressed: () {
-                                    Navigator.pushNamed(context, 'register');
-                                  },
-                                )),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-
-                            Container(
-                                height: 50,
-                                padding:
-                                const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      primary: Color.fromARGB(255, 223, 27, 13),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(20))),
-                                  child: const Text('Google',
-                                      style: TextStyle(fontSize: 18)),
-                                  onPressed: () {
-                                    _loginWithGoogle();
-                                  },
-                                )),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.white,
+                                  onPrimary: Colors.black,
+                                  side: BorderSide(
+                                      width: 2,
+                                      color: Color.fromRGBO(187, 83, 98, 0.6))),
+                              onPressed: () {
+                                _loginWithGoogle();
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    Image(
+                                      image:
+                                          AssetImage("images/google_logo.png"),
+                                      height: 18.0,
+                                      width: 24,
+                                    ),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.only(left: 24, right: 8),
+                                      child: Text(
+                                        'Iniciar sesion con Google',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color:
+                                              Color.fromRGBO(187, 83, 98, 0.8),
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
                           ],
                         ),
                       ],
@@ -245,5 +178,4 @@ class _Loginstate extends State<Login> {
           ),
         ));
   }
-
 }

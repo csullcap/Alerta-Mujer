@@ -10,7 +10,7 @@
 
 
     <application
-        android:label="alerta_mujer"
+        android:label="calculadora"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       routes: {
         'login': (_) => Login(),
         'register': (_) => Register(),
-        'main': (_) => const PrincipalView(),
+        'main': (_) => PrincipalView(),
         'centros': (_) => CentroEmergencia(),
         'policias': (_) => CentroPolicia(),
       },

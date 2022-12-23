@@ -3,21 +3,40 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:animated_floating_buttons/animated_floating_buttons.dart';
+import 'package:banner_carousel/banner_carousel.dart';
 
-class PrincipalView extends StatelessWidget {
-  final String recomendacion =
-      "Recuerda: Si quieres realizar una llamada de emergencia a la linea #100 solo pulse el boton redondo";
+class PrincipalView extends StatefulWidget {
+  PrincipalView({Key? key}) : super(key: key);
+
+  @override
+  _PrincipalView createState() => _PrincipalView();
+}
+
+class _PrincipalView extends State<PrincipalView> {
+  final GlobalKey<AnimatedFloatingActionButtonState> key =
+      GlobalKey<AnimatedFloatingActionButtonState>();
+  final String recomendacion = "Para emergencias marque la linea 100.";
   final String centro = "Centro de emergencia mujer mas cercano";
   final String policia = "Estacion policial mas cercana";
   final String CEM = 'centro+de+emergencia+mujer+mas+cercano';
   final String COMISARIA = 'comisaría+mas+cercana';
 
-  const PrincipalView({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 233, 124, 200),
+      backgroundColor: const Color.fromRGBO(248, 206, 205, 1),
+      floatingActionButton: AnimatedFloatingActionButton(
+        key: key,
+        fabButtons: <Widget>[
+          cntros_emergencia(),
+          comisarias(),
+          recomendaciones(),
+        ],
+        colorStartAnimation: Color.fromRGBO(187, 83, 98, 1),
+        colorEndAnimation: Colors.red,
+        animatedIconData: AnimatedIcons.menu_close,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -32,7 +51,7 @@ class PrincipalView extends StatelessWidget {
                 children: [
                   const Text("Bienvenida",
                       style: TextStyle(
-                          color: Colors.white,
+                          color: Color.fromRGBO(187, 83, 98, 1),
                           fontSize: 30,
                           fontWeight: FontWeight.bold)),
                   Container(
@@ -42,7 +61,7 @@ class PrincipalView extends StatelessWidget {
                         icon: const Icon(Icons.login_sharp),
                         style: ElevatedButton.styleFrom(
                             backgroundColor:
-                                const Color.fromARGB(255, 82, 228, 238),
+                                const Color.fromRGBO(187, 83, 98, 1),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20))),
                         label:
@@ -58,25 +77,26 @@ class PrincipalView extends StatelessWidget {
               ),
               Text(recomendacion,
                   style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
+                      color: Color.fromRGBO(197, 120, 130, 1),
+                      fontSize: 18,
                       fontWeight: FontWeight.normal)),
               const SizedBox(
-                height: 40,
+                height: 20,
               ),
               Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 223, 27, 13),
+                      backgroundColor: Color.fromRGBO(187, 83, 98, 1),
                       shape: const CircleBorder(),
-                      side: const BorderSide(width: 4, color: Colors.white),
+                      side: const BorderSide(
+                          width: 4, color: Color.fromRGBO(187, 83, 98, 1)),
                       padding: const EdgeInsets.all(50)),
                   onPressed: _callNumber,
                   child: Column(
                     children: const [
                       Icon(
                         Icons.local_phone_rounded,
-                        size: 150,
+                        size: 100,
                       ),
                       SizedBox(
                         height: 10,
@@ -91,67 +111,59 @@ class PrincipalView extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 35,
+                height: 30,
               ),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 5,
-                    child: Column(
-                      children: [
-                        ElevatedButton(
-                          onPressed: () => _openMap(CEM),
-                          style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.all(8.0),
-                              backgroundColor:
-                                  const Color.fromARGB(255, 82, 228, 238),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20))),
-                          child: const Icon(
-                            Icons.maps_home_work_outlined,
-                            size: 50,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          centro,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.white, fontSize: 15),
-                        )
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                      flex: 5,
-                      child: Column(
-                        children: [
-                          ElevatedButton(
-                            onPressed: () => _openMap(COMISARIA),
-                            style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.all(8.0),
-                                primary: Color.fromARGB(255, 82, 228, 238),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20))),
-                            child: const Icon(
-                              size: 50,
-                              Icons.maps_home_work_outlined,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            policia,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white, fontSize: 15),
-                          )
-                        ],
-                      ))
-                ],
-              )
+              BannerCarousel.fullScreen(
+                banners: BannerImages.listBanners,
+                height: 260,
+                borderRadius: 25,
+                animation: true,
+                initialPage: 1,
+                customizedIndicators: IndicatorModel.animation(
+                    width: 20, height: 5, spaceBetween: 2, widthAnimation: 50),
+                activeColor: Color.fromRGBO(197, 120, 130, 0.9),
+                disableColor: Color.fromRGBO(197, 120, 130, 0.5),
+                // OR pageController: PageController(initialPage: 6),
+              ),
             ]),
+      ),
+    );
+  }
+
+  Widget cntros_emergencia() {
+    return Container(
+      child: FloatingActionButton(
+        backgroundColor: Color.fromRGBO(197, 120, 130, 1),
+        onPressed: () {
+          _openMap(CEM);
+        },
+        heroTag: null,
+        tooltip: 'Centros',
+        child: Icon(Icons.home_work),
+      ),
+    );
+  }
+
+  Widget comisarias() {
+    return Container(
+      child: FloatingActionButton(
+        backgroundColor: Color.fromRGBO(197, 120, 130, 1),
+        onPressed: () => _openMap(COMISARIA),
+        heroTag: null,
+        tooltip: 'Comisarias',
+        child: Icon(Icons.policy),
+      ),
+    );
+  }
+
+  Widget recomendaciones() {
+    return Container(
+      child: FloatingActionButton(
+        backgroundColor: Color.fromRGBO(197, 120, 130, 1),
+        onPressed: () => {Navigator.pushNamed(context, 'centros')},
+        heroTag: null,
+        tooltip: 'Recomendaciones',
+        child: Icon(Icons.dashboard),
       ),
     );
   }
@@ -218,4 +230,22 @@ Future<void> _openMap(String type) async {
       throw 'Could not launch $url';
     }
   }
+}
+
+class BannerImages {
+  static const String banner1 =
+      "https://i0.wp.com/ugelhuancayo.gob.pe/wp-content/uploads/2021/04/CygvV8FWQAAmwpG-1.jpg";
+  static const String banner2 =
+      "https://undac.edu.pe/wp-content/uploads/2021/02/01-CEM-01-1024x810.png";
+  static const String banner3 =
+      "https://munibambamarca.gob.pe/wp-content/uploads/2021/02/01-39-1024x435.jpg";
+  static const String banner4 =
+      "https://www.muniporvenir.gob.pe/wp-content/uploads/2021/05/mentoras.jpg";
+
+  static List<BannerModel> listBanners = [
+    BannerModel(imagePath: banner1, id: "1"),
+    BannerModel(imagePath: banner2, id: "2"),
+    BannerModel(imagePath: banner3, id: "3"),
+    BannerModel(imagePath: banner4, id: "4"),
+  ];
 }
